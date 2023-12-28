@@ -294,3 +294,88 @@ In this example, `myCircle` and `mySquare` are both treated as `Shape` objects w
 ## Conclusion
 
 This comprehensive exploration covers the fundamental concepts of Object-Oriented Programming (OOP) in Dart. Understanding these concepts, including classes, inheritance, constructors, encapsulation, abstraction, and polymorphism, is crucial for writing efficient and maintainable Dart code. For more in-depth information and advanced use cases, refer to the official Dart documentation: [Dart Documentation](https://dart.dev/guides).
+
+---
+
+# Extensions in Dart
+
+Dart introduced extensions as a feature that allows adding new functionality to existing classes without modifying their source code. This provides a way to extend the behavior of types you don't own or cannot modify. Let's explore the concept of extensions in Dart and how to implement them.
+
+## Extension Declaration
+
+To declare an extension, you use the `extension` keyword followed by a name and the `on` keyword specifying the type you want to extend. Inside the extension, you can define new methods, getters, setters, and fields:
+
+```dart
+extension StringExtension on String {
+  int parseInt() {
+    return int.parse(this);
+  }
+
+  String capitalize() {
+    return this.isNotEmpty ? this[0].toUpperCase() + this.substring(1) : this;
+  }
+}
+```
+
+In this example, we declare an extension named `StringExtension` that extends the `String` class. It provides two new methods: `parseInt` to parse a string into an integer and `capitalize` to capitalize the first letter of the string.
+
+## Using Extensions
+
+Once an extension is declared, you can use its methods as if they were defined directly on the extended type. Here's how you use the `StringExtension` extension:
+
+```dart
+void main() {
+  String numberString = '42';
+  int number = numberString.parseInt();
+
+  print('Parsed number: $number');
+
+  String greeting = 'hello';
+  String capitalizedGreeting = greeting.capitalize();
+
+  print('Capitalized greeting: $capitalizedGreeting');
+}
+```
+
+In this example, the `parseInt` method from the `StringExtension` extension is used to parse a string into an integer, and the `capitalize` method is used to capitalize the first letter of a string.
+
+## Limitations
+
+- Extensions can only be declared on non-nullable types.
+- They cannot access private members of the extended type.
+- Extensions are not inherited, meaning if a subclass extends a class, it won't automatically inherit the extensions of the superclass.
+
+## Advanced Usage
+
+Extensions can be used to add functionality to third-party or system libraries without modifying their source code. For example, you could create an extension to add extra methods to the `List` class:
+
+```dart
+extension ListExtension<E> on List<E> {
+  E safeGet(int index) {
+    return (index >= 0 && index < this.length) ? this[index] : null;
+  }
+
+  void printAll() {
+    this.forEach(print);
+  }
+}
+```
+
+Now, you can use these methods on any list:
+
+```dart
+void main() {
+  List<int> numbers = [1, 2, 3, 4, 5];
+
+  int element = numbers.safeGet(2);
+  print('Element at index 2: $element');
+
+  numbers.printAll();
+}
+```
+
+This is a powerful feature for enhancing existing types and promoting code reuse.
+
+## Conclusion
+
+Extensions in Dart provide a clean and efficient way to add new functionality to existing types. They improve code readability and maintainability by allowing you to extend classes without modifying their source code. When used carefully, extensions can be a valuable tool for writing concise and expressive Dart code. For more in-depth information and advanced use cases, refer to the official Dart documentation on [extensions](https://dart.dev/guides/language/extension-methods).
